@@ -5,8 +5,12 @@
         public int Id { get; set; }
         public string? Description { get; set; }
 
-        public int CarId { get; set; }
-        public Car Car { get; set; }
+        public IList<Car> Cars { get; set; }
+
+        public Reparation()
+        {
+            Cars = [];
+        }
 
 
     }

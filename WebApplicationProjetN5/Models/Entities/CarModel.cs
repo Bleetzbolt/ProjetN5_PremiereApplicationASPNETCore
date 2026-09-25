@@ -4,15 +4,14 @@
     {
         public int Id { get; set; }
         public string Name { get; set; }
-
         public int BrandId { get; set; }
         public Brand Brand { get; set; }
-
-        public IList<CarVersion> CarVersions { get; set; }
-        
-        public CarModel() 
+        public int CarfinishId { get; set; }
+        public CarFinish CarFinish { get; set; }
+        public IList<Car> Cars { get; set; }
+        public CarModel()
         {
-            CarVersions = [];
+            Cars = [];
         }
     }
 }

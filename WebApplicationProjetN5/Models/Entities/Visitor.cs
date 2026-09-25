@@ -3,11 +3,11 @@
     public class Visitor
     {
         public int Id { get; set; }
-        public IList<Announce>Announces {  get; set; }
+       IList<Car> Cars { get; set; }
 
         public Visitor()
         {
-            Announces = [];
+            Cars = [];
         }
 
     }
