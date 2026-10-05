@@ -3,18 +3,44 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using WebApplicationProjetN5.Data;
 using WebApplicationProjetN5.Models.Entities;
+using WebApplicationProjetN5.Models.Repositories.Implementation;
+using WebApplicationProjetN5.Models.Repositories.Interfaces;
+using WebApplicationProjetN5.Models.Services.Implementations;
+using WebApplicationProjetN5.Models.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddDefaultIdentity<IdentityUser>()
+    .AddEntityFrameworkStores<GarageDBContext>();
 builder.Services.AddControllersWithViews();
+builder.Services.AddMvc();
+
+//ajout par mes soins
+//builder.Services.AddDbContext<GarageDBContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<GarageDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("GarageDbLocalConnection")));
+builder.Services.AddScoped<IBrandService, BrandService>();
+builder.Services.AddScoped<IBrandRepository, BrandRepository>();
+
+builder.Services.AddScoped<ICarModelService, CarModelService>();
+builder.Services.AddScoped<ICarModelRepository, CarModelRepository>();
+
+builder.Services.AddScoped<ICarFinishService, CarFinishService>();
+builder.Services.AddScoped<ICarFinishRepository, CarFinishRepository>();
+
+builder.Services.AddScoped<ICarRepository, CarRepository>();
+builder.Services.AddScoped<ICarService, CarService>();
+
+builder.Services.AddScoped<IReparationRepository, ReparationRepository>();
+builder.Services.AddScoped<IReparationService, ReparationService>();
+
+
+
+//**********************************
+
 
 var app = builder.Build();
 
@@ -32,7 +58,7 @@ else
 
 
 //************************
-using (var context = new GarageDBContext())
+/*using (var context = new GarageDBContext())
 {
    
     //creates db if not exists 
@@ -66,7 +92,7 @@ using (var context = new GarageDBContext())
     context.DateComponents.Add(DateComponent1);
     context.FinancialComponents.Add(FinancialComponent1);
     context.Visitors.Add(Visitor1); 
-    */
+    
 
     //save data to the database tables
     context.SaveChanges();
@@ -78,7 +104,7 @@ using (var context = new GarageDBContext())
     }
 
     DisplayStates(context.ChangeTracker.Entries());
-    */
+  
 }
     
 
@@ -89,7 +115,7 @@ static void DisplayStates(IEnumerable<EntityEntry> entries)
     {
         Console.WriteLine($"Entity: {entry.Entity.GetType().Name} State: { entry.State.ToString()} ");
     }
-}
+}*/
 
     
 //************************
