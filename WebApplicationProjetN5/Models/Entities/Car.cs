@@ -13,18 +13,21 @@
         public DateOnly SaleDate { get; set; }
         public DateOnly PurchaseDate { get; set; }
         public int ReleasedYear { get; set; }
-        public int UserId { get; set; }
-        public User User { get; set; }
+       
         public int CarModelId { get; set; }
         public CarModel CarModel { get; set; }  
 
+        public int CarFinishId { get; set; }
+        public CarFinish CarFinish { get; set; }
+
+
         public IList<Reparation> Reparations { get; set; }
-        public IList<Visitor> Visitors { get; set; }
+       
 
         public Car()
         {
             Reparations = [];
-            Visitors = [];
+           
 
         }
 
