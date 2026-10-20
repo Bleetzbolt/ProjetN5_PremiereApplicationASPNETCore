@@ -1,0 +1,13 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model WebApplicationProjetN5.Models.ViewModels.CarViewModel
+<form asp-controller="Car" asp-action="Index" method="post">
+
+<H1>Merci!</H1>
+    <P>@Model.Car.CarModel.Name @Model.Car.CarFinish.Name  a été supprimée avec succès.</P>
+
+<button type="submit" class="btn btn-primary">Retour à l'accueil</button>
+</form>

@@ -1,0 +1,14 @@
+﻿/* CSS for Index view */
+.car-carte {
+    justify-content: center;
+    display: flex;
+    background-color:white;
+    padding-right:10px;
+    width: 600px
+}
+
+.text-block{
+    padding-left:30px;
+    align-content:center;
+    color:#0000000;
+}

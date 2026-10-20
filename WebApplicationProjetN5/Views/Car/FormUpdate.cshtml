@@ -1,0 +1,115 @@
+﻿@model WebApplicationProjetN5.Models.ViewModels.CarViewModel
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/formUpdateCar.css" />
+}
+<div class="page-block">
+    <p> Formulaire pour Modifier une voiture </p>
+    <div class="main-block">
+        <form asp-controller="Car" asp-action="CarUpdate" method="post" enctype="multipart/form-data">
+
+            <input type="hidden" asp-for="Car.Id" />
+            <div class="main-block">
+                <div class="space-field-center">
+                    <div class="space-field">
+                        <p class="space-lbl">Année</p>
+                        <p class="form-field">@Model.Car.ReleasedYear</p>
+                    </div>
+                    <div class="space-field">
+                        <p class="space-lbl">Marque</p>
+                        <p class="form-field">@Model.BrandName</p>
+                    </div>
+                    <div class="space-field">
+                        <p class="space-lbl">Modèle</p>
+                        <p class="form-field">@Model.CarModelName</p>
+                    </div>
+                    <div class="space-field">
+                        <p class="space-lbl">Prix d'achat</p>
+                        <p class="form-field">@Model.Car.PurchasePrice</p>
+                    </div>
+                    <div class="space-field">
+                        <p class="space-lbl">Finition</p>
+                        <select asp-for="CarFinish.Name"
+                                asp-items="Model.SelCarFinishVMs"
+                                id="CarFinishName"
+                                class="form-field">
+                            <option value="">-- Choisir une finition --</option>
+                            <option value="__custom__CarFinish">+ Saisir une finition...</option>
+                        </select>
+                        <input type="text"
+                               name="CustomCarFinish"
+                               id="CustomCarFinish"
+                               class="form-field"
+                               placeholder="Saisir le nom de la finition"
+                               style="display:none;" />
+                    </div>
+
+                    <p class="space-lbl">Prix de vente</p>
+                    <div class="space-field-center">
+                        <div class="space-field">
+                            <input asp-for="Car.SellingPrice" class="form-field" />
+                        </div>
+                    </div>
+
+                    <p class="space-lbl">Message</p>
+                    <div class="space-field-center">
+                        <div class="space-field">
+                            <textarea asp-for="Car.Message" class="form-field"></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="space-pic">
+                        <div class="photo-upload">
+                            <div>
+                                <input type="file"
+                                       id="photo"
+                                       name="photo"
+                                       accept="image/*"
+                                       hidden />
+
+                                <label for="photo" class="bt-add-photo">+</label>
+                            </div>
+
+                            <span id="photo-name" class="space-text-pic">Ajoutez une image</span>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="space-bt">
+                    <button type="submit" class="bt-publish">Mettre à jour</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        const carFinishSelect = document.getElementById("CarFinishName");
+        const customCarFinishInput = document.getElementById("CustomCarFinish");
+
+        carFinishSelect.addEventListener("change", function () {
+            const isCustomCarFinish = this.value === "__custom__CarFinish";
+            customCarFinishInput.style.display = isCustomCarFinish ? "block" : "none";
+            if (isCustomCarFinish) {
+                customCarFinishInput.focus();
+            } else {
+                customCarFinishInput.value = "";
+            }
+        });
+
+        // Gestion de l'affichage du nom du fichier sélectionné pour l'image
+        const photoInput = document.getElementById("photo");
+        const photoName = document.getElementById("photo-name");
+
+        photoInput.addEventListener("change", function () {
+            if (this.files.length > 0) {
+                photoName.textContent = this.files[0].name;
+            } else {
+                photoName.textContent = "Ajouter une image";
+            }
+        });
+    </script>
+
+

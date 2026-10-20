@@ -1,0 +1,95 @@
+/* CSS for formNewCar view */
+.main-block {
+    width: 493px;
+    height:1072px;
+    border: 1px solid black;
+    justify-content: center;
+    
+}
+.space-field-center {
+    display: flex;
+    flex-direction:column;
+    align-items: center;
+    
+}
+
+.page-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.bt-publish {
+    background-color: #D9A963;
+    color: black;
+    height: 61px;
+    width: 145px;
+    border-radius: 5px;
+}
+
+    .bt-publish:hover {
+        background-color: #B99056;
+        color: white;
+    }
+
+.space-bt {
+    width: 493px;
+    display: flex;
+    justify-content: center;
+    padding-top: 40px;
+}
+
+.form-field {
+    width: 372px;
+    height: 64px;
+    background-color: white;
+    padding-left: 10px;
+    border: 1px solid black;
+}
+
+.bt-add-photo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 62px;
+    height: 62px;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: #D9A963;
+    color: black;
+    font-size: 32px;
+    cursor: pointer;
+    box-sizing: border-box;
+    padding-bottom:10px;
+}
+
+    .bt-add-photo:hover {
+        background-color: #B99056;
+        color: white;
+    }
+
+    .photo-upload{
+        width:372px;
+        height:147px;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        border:1px solid black;
+     
+    }
+
+    .space-text-pic{
+        padding-left:20px;
+    }
+    .space-pic{
+        padding-top:40px;
+    }
+.space-field {
+    padding-top: 10px;
+    
+}
+
+    .space-lbl{
+        margin:0;
+
+    }

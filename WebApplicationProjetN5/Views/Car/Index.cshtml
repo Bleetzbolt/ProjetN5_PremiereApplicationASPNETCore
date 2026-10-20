@@ -1,0 +1,28 @@
+﻿@model IEnumerable<WebApplicationProjetN5.Models.ViewModels.CarViewModel>
+@section Styles {
+    <link rel="stylesheet" href="~/css/car-index.css" />
+    <link rel="stylesheet" href="~/css/Thumbnail-Car.css" />
+}
+
+<div>
+    <h1 class="display-4">Nos voitures</h1>
+    <div class="car-list">
+        @foreach (var car in Model)
+        {
+            <div class="block_Car">
+                <form asp-controller="Car" asp-action="Single_Car" method="get">
+                    <input type="hidden" name="Car_Id" value="@car.Car.Id" />
+                    <button type="submit" class="car-test">
+                        <div class="car-block">
+                            <partial name="_ThumbnailCar" model="car" />
+                        </div>
+                    </button>
+                </form>
+            </div>
+
+        }
+    </div>
+</div>
+
+
+   

@@ -1,0 +1,59 @@
+/* CSS for Index view */
+.main-block {
+    display: flex;
+    justify-content: center;
+    background-color: white;
+    width: 372px;
+    margin: 0 auto;
+    align-items: center;
+}
+
+.login-title {
+    text-align: center;
+    
+}
+
+.form-tb-mail-password {
+    background-color: white !important;
+    color: black;
+    height: 64px;
+    width: 372px;
+    border-radius: 3px;
+    
+}
+
+    
+
+.btn_login {
+    background-color: #D9A963;
+    color: black;
+    height: 61px;
+    width: 145px;
+
+}
+
+    .btn_login:hover {
+        background-color: #B99056;
+        color: white;
+    }
+
+.form-group {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    }
+
+.space-bt {
+    width: 372px;
+    display: flex;
+    justify-content: center;
+    padding-top: 40px;
+}
+
+.space-mailpwd {
+    padding-top: 40px;
+}
+
+.space-lbl {
+    padding-bottom: 10px;
+}

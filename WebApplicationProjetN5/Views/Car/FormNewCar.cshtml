@@ -1,0 +1,248 @@
+﻿@model WebApplicationProjetN5.Models.ViewModels.CarViewModel
+@section Styles {
+    <link rel="stylesheet" href="~/css/formNewCar.css" />
+}
+<div class="page-block">
+    <div>
+        <p>Ajouter une voiture</p>
+    </div>
+    <div>
+        <p> Tous les champs sont obligatoires </p>
+    </div>
+    <div class="main-block">
+        <form asp-controller="Car" asp-action="Create" method="post" enctype="multipart/form-data">
+            <div class="space-field-center">
+                <div class="space-field">
+                    <p class="space-lbl">Prix de vente</p>
+                    <input asp-for="Car.SellingPrice" class="form-field" />
+                </div>
+
+                <div class="space-field">
+
+                    <p class="space-lbl">Date de mise en vente</p>
+
+
+                    <input asp-for="Car.SaleDate"
+                           type="date"
+                           onkeydown="return false;"
+                           onpaste="return false;"
+                           class="form-field" />
+                </div>
+
+                <div class="space-field">
+                    <p class="space-lbl">Année</p>
+                    <input asp-for="Car.ReleasedYear" class="form-field" />
+                </div>
+                <div class="space-field">
+                    <p class="space-lbl">Marque</p>
+                    <select asp-for="BrandName"
+                            asp-items="Model.SelBrandVMs"
+                            id="BrandName"
+                            class="form-field">
+                        <option value="">-- Choisir une marque --</option>
+                        <option value="__custom__Brand">+ Saisir une marque...</option>
+                    </select>
+
+                    <input type="text"
+                           name="CustomBrand"
+                           id="CustomBrand"
+                           class="form-field"
+                           placeholder="Saisir le nom de la marque"
+                           style="display:none;" />
+                </div>
+                <div class="space-field">
+                    <p class="space-lbl">Modèle</p>
+                    <select asp-for="CarModelName"
+                            asp-items="Model.SelCarModelVMs"
+                            id="CarModelName"
+                            class="form-field">
+                        <option value="">-- Choisir un modèle --</option>
+                        <option value="__custom__CarModel">+ Saisir un modèle...</option>
+                    </select>
+
+                    <input type="text"
+                           name="CustomCarModel"
+                           id="CustomCarModel"
+                           class="form-control mt-2"
+                           placeholder="Saisir le nom du modèle"
+                           style="display:none;" />
+                </div>
+                <div class="space-field">
+                    <p class="space-lbl">Finition</p>
+                    <select asp-for="CarFinish.Name"
+                            asp-items="Model.SelCarFinishVMs"
+                            id="CarFinishName"
+                            class="form-field">
+                        <option value="">-- Choisir une finition --</option>
+                        <option value="__custom__CarFinish">+ Saisir une finition...</option>
+                    </select>
+
+                    <input type="text"
+                           name="CustomCarFinish"
+                           id="CustomCarFinish"
+                           class="form-field"
+                           placeholder="Saisir le nom de la finition"
+                           style="display:none;" />
+                </div>
+                <div class="space-pic">
+                <div class="photo-upload">
+                    <div>
+                    <input type="file"
+                           id="photo"
+                           name="photo"
+                           accept="image/*"
+                           hidden />
+
+                    <label for="photo" class="bt-add-photo">+</label>
+                    </div>
+
+                    <span id="photo-name" class="space-text-pic">Ajoutez une image</span>
+
+                </div>
+                </div>
+                <div class="space-bt">
+                    <button type="submit" class="bt-publish">Publier</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const brandSelect = document.getElementById("BrandName");
+    const customBrandInput = document.getElementById("CustomBrand");
+    const carModelSelect = document.getElementById("CarModelName");
+    const customCarModelInput = document.getElementById("CustomCarModel");
+    const carFinishSelect = document.getElementById("CarFinishName");
+    const customCarFinishInput = document.getElementById("CustomCarFinish");
+
+    function addCustomCarModelOption() {
+        const option = document.createElement("option");
+        option.value = "__custom__CarModel";
+        option.textContent = "+ Saisir un modèle...";
+        carModelSelect.appendChild(option);
+    }
+
+    function addCustomCarFinishOption() {
+        const option = new Option(
+            "+ Saisir une finition...",
+            "__custom__CarFinish"
+        );
+
+        carFinishSelect.add(option);
+    }
+
+    brandSelect.addEventListener("change", async function () {
+        const brandName = this.value;
+
+        const isCustomBrand = this.value === "__custom__Brand";
+
+        customBrandInput.style.display = isCustomBrand ? "block" : "none";
+
+        carModelSelect.replaceChildren(new Option("-- Choisir un modèle --", ""));
+
+        customCarModelInput.style.display = "none";
+        customCarModelInput.value = "";
+
+        if (!brandName || brandName === "__custom__Brand") {
+            addCustomCarModelOption();
+            return;
+        }
+
+        try {
+            const response = await fetch(`/Car/GetModelsByBrand?brandName=${encodeURIComponent(brandName)}`);
+
+            if (!response.ok) {
+                throw new Error("Erreur lors du chargement des modèles.");
+            }
+
+            const carModels = await response.json();
+
+            carModels.forEach(carModel => {
+                carModelSelect.add(new Option(carModel.name, carModel.name));
+            });
+
+            addCustomCarModelOption();
+        }
+        catch (error) {
+            console.error(error);
+            addCustomCarModelOption();
+        }
+    });
+
+    carModelSelect.addEventListener("change", async function () {
+        const carModelName = this.value;
+
+        // Afficher ou masquer la saisie libre du modèle.
+        const isCustom = carModelName === "__custom__CarModel";
+
+        customCarModelInput.style.display = isCustom ? "block" : "none";
+
+        if (isCustom) {
+            customCarModelInput.focus();
+        } else {
+            customCarModelInput.value = "";
+        }
+
+        // Réinitialiser la liste des finitions.
+        carFinishSelect.replaceChildren(
+            new Option("-- Choisir une finition --", "")
+        );
+
+        customCarFinishInput.style.display = "none";
+        customCarFinishInput.value = "";
+
+        // Si aucun modèle n'est choisi, ou si l'utilisateur saisit
+        // un nouveau modèle, ne pas charger les finitions existantes.
+        if (!carModelName || isCustom) {
+            addCustomCarFinishOption();
+            return;
+        }
+
+        try {
+            const response = await fetch(
+                `/Car/GetCarFinishesByModel?carModelName=${encodeURIComponent(carModelName)}`
+            );
+
+            if (!response.ok) {
+                throw new Error("Erreur lors du chargement des finitions.");
+            }
+
+            const carFinishes = await response.json();
+
+            carFinishes.forEach(carFinish => {
+                carFinishSelect.add(
+                    new Option(carFinish.name, carFinish.name)
+                );
+            });
+
+            addCustomCarFinishOption();
+        } catch (error) {
+            console.error(error);
+            addCustomCarFinishOption();
+        }
+    });
+
+    carFinishSelect.addEventListener("change", function () {
+        const isCustomCarFinish = this.value === "__custom__CarFinish";
+        customCarFinishInput.style.display = isCustomCarFinish ? "block" : "none";
+        if (isCustomCarFinish) {
+            customCarFinishInput.focus();
+        } else {
+            customCarFinishInput.value = "";
+        }
+    });
+
+    // Gestion de l'affichage du nom du fichier sélectionné pour l'image
+    const photoInput = document.getElementById("photo");
+    const photoName = document.getElementById("photo-name");
+
+    photoInput.addEventListener("change", function () {
+        if (this.files.length > 0) {
+            photoName.textContent = this.files[0].name;
+        } else {
+            photoName.textContent = "Ajouter une image";
+        }
+    });
+</script>
+

@@ -1,0 +1,43 @@
+﻿@section Styles {
+    <link rel="stylesheet" href="~/css/Single_Car.css" />
+    <link rel="stylesheet" href="~/css/Thumbnail-Car.css" />
+}
+@model WebApplicationProjetN5.Models.ViewModels.CarViewModel
+
+<div class="main-block">
+    <div class="bt_back">
+        <form asp-controller="Car" asp-action="Index" method="post" enctype="multipart/form-data">
+            <button type="submit" class="bt_sc">Retour</button>
+        </form>
+    </div>
+    
+    @if (User.IsInRole("Admin"))
+    {
+        <p class="text-publish">Vous avez publié cette annonce, vous pouvez la:</p>
+        <div class="bt-arrange">
+            <div>
+                <form asp-controller="Car" asp-action="FormUpdate" method="get">
+                    <input type="hidden" name="Car_Id" value="@Model.Car.Id" />
+                    <button type="submit" class="bt_sc">Modifier</button>
+
+                </form>
+
+            </div>
+            <div>
+                <form asp-controller="Car" asp-action="Delete" method="get">
+                    <input type="hidden" name="Car_Id" value="@Model.Car.Id" />
+                    <button type="submit" class="bt_sc">Supprimer</button>
+                </form>
+            </div>
+
+        </div>
+    }
+
+    <div class="car-block">
+        <partial name="_ThumbnailCar" model="Model" />
+    </div>
+
+</div>
+
+
+

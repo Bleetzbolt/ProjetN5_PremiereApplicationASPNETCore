@@ -1,8 +1,14 @@
-﻿@{
+﻿<!--@{
     ViewData["Title"] = "Home Page";
-}
+}-->
+@model IEnumerable<WebApplicationProjetN5.Models.ViewModels.CarViewModel>
+<h1>Mes voitures</h1>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="car-list">
+    @foreach (var car in Model)
+    {
+        
+        <partial name="_ThumbnailCar" model="car" />
+       
+    }
 </div>

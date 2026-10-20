@@ -1,0 +1,36 @@
+/* CSS for formUpdateCar view */
+.main-block {
+    display:flex;
+    flex-direction:column;
+    width: 1320px;
+    height: 893px;
+   
+    justify-content: center;
+    align-items: center;
+}
+
+
+.bt-publish {
+    background-color: #D9A963;
+    color: black;
+    height: 61px;
+    width: 145px;
+    border-radius: 5px;
+    
+}
+
+    .bt-publish:hover {
+        background-color: #B99056;
+        color: white;
+    }
+
+.space-title {
+    text-align: center;
+    font: bold 24px/29px 'Libre Baskerville', sans-serif; 
+
+    
+}
+
+.space-block{
+    padding-bottom:150px;
+}

@@ -1,0 +1,61 @@
+/* CSS for Index view */
+.car-list {
+    display: grid;
+    grid-template-columns: repeat(2, 700px);
+    gap: 50px;
+    justify-content: center;
+    /*color: mintcream;*/
+}
+
+.car-block {
+    /*border: 2px solid white;*/
+    padding: 10px;
+    border: 0px solid brown;
+    
+}
+.display-4 {
+    text-align: center;
+}
+
+.car-card {
+    justify-content: center;
+    display: flex;
+    gap: 0px;
+    color: black;
+    border: 5px solid brown;
+    background-color: #B99056;
+}
+
+.bt-arrange {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    
+}
+
+.main-block {
+    width: 1320px;
+    height: 887px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.bt_sc {
+    background-color: white;
+    border: none;
+    text-decoration:underline;
+    color:black;
+    margin:0;
+}
+.bt_sc:hover{
+    color:red;
+}
+.bt_back {
+    text-align:left;
+    width:40%;
+}
+.text-publish{
+    margin:0;
+}

@@ -1,0 +1,28 @@
+/* CSS for Index view */
+.car-list {
+    display: grid;
+    grid-template-columns: repeat(2, 700px);
+    gap: 10px;
+    justify-content: center;
+    /*color: mintcream;*/
+}
+
+.car-block {
+    /*border: 2px solid white;*/
+    padding: 10px;
+    border:none;
+    
+    
+}
+.display-4 {
+    text-align: center;
+}
+
+.car-test {
+    justify-content: center;
+    display: flex;
+    gap: 0px;
+    color: black;
+    background-color: white;
+    border: none;
+}

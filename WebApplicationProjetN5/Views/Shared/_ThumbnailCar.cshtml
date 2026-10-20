@@ -1,0 +1,16 @@
+﻿@model WebApplicationProjetN5.Models.ViewModels.CarViewModel
+
+<div class="car-carte">
+    
+    <div>
+    <img src="@Model.Car.Photo" alt="Photo de la voiture" width="300" height="300" />
+    </div>
+    <div class="text-block">
+    <p>Prix de vente : @Model.Car.SellingPrice</p>
+    <p>Année : @Model.Car.ReleasedYear</p>
+    <p>Marque : @Model.Brand.Name</p>
+    <p>Modèle : @Model.Car.CarModel.Name</p>
+    <p>Finition : @Model.Car.CarFinish.Name</p>
+    </div>
+    
+</div>
