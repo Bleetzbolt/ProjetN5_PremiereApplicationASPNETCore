@@ -1,9 +1,10 @@
-﻿using System.Data.SqlTypes;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using System.Data.SqlTypes;
 using WebApplicationProjetN5.Data;
 using WebApplicationProjetN5.Models.Entities;
 using WebApplicationProjetN5.Models.Repositories.Interfaces;
 using WebApplicationProjetN5.Models.ViewModels;
-using Microsoft.EntityFrameworkCore;
 
 namespace WebApplicationProjetN5.Models.Repositories.Implementation
 {
@@ -11,10 +12,15 @@ namespace WebApplicationProjetN5.Models.Repositories.Implementation
     {
         private static GarageDBContext _context;
         private readonly IBrandRepository _brandRepository;
+        private readonly ICarModelRepository _carModelRepository;
+        private readonly ICarFinishRepository _carFinishRepository;
 
-        public CarRepository(GarageDBContext context)
+        public CarRepository(GarageDBContext context, IBrandRepository brandRepository, ICarModelRepository carModelRepository, ICarFinishRepository carFinishRepository)
         {
             _context = context;
+            _brandRepository = brandRepository;
+            _carModelRepository = carModelRepository;
+            _carFinishRepository = carFinishRepository;
         }
 
         public IEnumerable<CarViewModel> GetAllCars()
@@ -25,34 +31,40 @@ namespace WebApplicationProjetN5.Models.Repositories.Implementation
                 .Select(c => new CarViewModel
                 {
                     Car = c,
-                    Brand = c.CarModel.Brand
+                    Brand = c.CarModel.Brand,
+                    CarFinish = c.CarFinish,
+                    BrandName = c.CarModel.Brand.Name,
+                    CarModelName = c.CarModel.Name
+
                 });
 
             return cars;
         }
 
-        public void SaveCar(CarViewModel CarVM)
+        public void SaveCar(Car car)
         {
-            var Car = CarVM.Car;
-
-            _context.Cars.Add(Car);
+            _context.Cars.Add(car);
             _context.SaveChanges();
         }
 
-        public Car? GetCar(int id)
+        public void UpdateCar(Car car)
+        {
+            _context.SaveChanges();
+        }
+
+        public Car? GetById(int id)
         {
             return _context.Cars.Find(id);
         }
 
         public void DeleteCar(int id)
         {
-            var CarToDelete = GetCar(id);
+            var CarToDelete = GetById(id);
             if (CarToDelete != null)
             {
                 _context.Cars.Remove(CarToDelete);
                 _context.SaveChanges();
             }
-
         }
     }
 }

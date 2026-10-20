@@ -6,10 +6,11 @@ namespace WebApplicationProjetN5.Models.Services.Interfaces
     public interface ICarModelService
     {
         public IEnumerable<CarModelViewModel> GetAllCarModels();
-        void SaveCarModel(CarModelViewModel CarModel);
+        void Save(CarModel CarModel);
 
-        void DeleteCarModel(int id);
+        void Delete(int id);
 
-        int GetCarModelId(CarModel CarModel);
+        CarModel? GetById(int id);
+        CarModel? GetByName(string name);
     }
 }

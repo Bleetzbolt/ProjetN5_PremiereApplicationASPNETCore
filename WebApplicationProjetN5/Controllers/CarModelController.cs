@@ -21,13 +21,19 @@ namespace WebApplicationProjetN5.Controllers
 
         public IActionResult Create(CarModelViewModel carModelVM)
         {
-            _CarModelService.SaveCarModel(carModelVM);
+            CarModel carModel = new CarModel
+            {
+                Name = carModelVM.CarModel.Name,
+                BrandId = carModelVM.BrandId
+                //CarFinishId = carModelVM.CarFinishId
+            };
+            _CarModelService.Save(carModel);
             return RedirectToAction("Read");
         }
 
         public IActionResult Delete(int id)
         {
-            _CarModelService.DeleteCarModel(id);
+            _CarModelService.Delete(id);
             return RedirectToAction("Read");
         }
 

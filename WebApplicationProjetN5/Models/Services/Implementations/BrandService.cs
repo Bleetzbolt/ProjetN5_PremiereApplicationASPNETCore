@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
 using WebApplicationProjetN5.Models.Entities;
 using WebApplicationProjetN5.Models.Repositories.Interfaces;
 using WebApplicationProjetN5.Models.Services.Interfaces;
@@ -21,18 +22,29 @@ namespace WebApplicationProjetN5.Models.Services.Implementations
            
            return _brandRepository.GetAllBrands();
         }
-        public void SaveBrand(Brand brand)
+        public int Save(Brand brand)
         {
-           _brandRepository.SaveBrand(brand);
+            if (brand == null || string.IsNullOrWhiteSpace(brand.Name))
+                return 0;
+
+            var ExistingBrand = _brandRepository.GetByName(brand.Name);
+
+            if (ExistingBrand != null)
+                return ExistingBrand.Id;
+
+            return _brandRepository.Save(brand);
         }
 
-        public int GetBrandId(Brand brand)
+        public Brand? GetById(int Id)
         {
-           return brand.Id;
+           return _brandRepository.GetById(Id);
         }
-        public void DeleteBrand(int id)
+             
+
+
+        public void Delete(int id)
         { 
-         _brandRepository.DeleteBrand(id);
+         _brandRepository.Delete(id);
 
         }
     }

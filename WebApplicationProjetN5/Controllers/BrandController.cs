@@ -21,13 +21,13 @@ namespace WebApplicationProjetN5.Controllers
 
         public IActionResult Create(Brand brand)
         {
-            _brandService.SaveBrand(brand);
+            _brandService.Save(brand);
             return RedirectToAction("Read");
         }
 
         public IActionResult Delete(int id)
         {
-            _brandService.DeleteBrand(id);
+            _brandService.Delete(id);
             return RedirectToAction("Read");
         }
 

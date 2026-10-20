@@ -1,6 +1,7 @@
 ﻿using WebApplicationProjetN5.Data;
 using WebApplicationProjetN5.Models.Entities;
 using WebApplicationProjetN5.Models.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebApplicationProjetN5.Models.Repositories.Implementation
 {
@@ -15,26 +16,38 @@ namespace WebApplicationProjetN5.Models.Repositories.Implementation
 
         public IList<CarFinish> GetAllCarFinish()
         {
-            return _context.CarFinishs.ToList();
+            return _context.CarFinishes
+                    .Include(f => f.CarModels)
+                    .Include(c => c.Cars)
+                    .ToList();
         }
 
-        public void SaveCarFinish(CarFinish CarFinish)
+        public int Save(CarFinish CarFinish)
         {
-            _context.CarFinishs.Add(CarFinish);
+           
+
+            _context.CarFinishes.Add(CarFinish);
             _context.SaveChanges();
+            return CarFinish.Id;
+                      
         }
 
-        public CarFinish? GetCarFinish(int id)
+        public CarFinish? GetById(int id)
         {
-            return _context.CarFinishs.Find(id);
+            return _context.CarFinishes.Find(id);
         }
 
-        public void DeleteCarFinish(int id)
+        public CarFinish? GetByName(string name)
         {
-            var CarFinishToDelete = GetCarFinish(id);
+            return _context.CarFinishes.FirstOrDefault(cf => cf.Name == name);
+        }
+
+        public void Delete(int id)
+        {
+            var CarFinishToDelete = GetById(id);
             if (CarFinishToDelete != null)
             {
-                _context.CarFinishs.Remove(CarFinishToDelete);
+                _context.CarFinishes.Remove(CarFinishToDelete);
                 _context.SaveChanges();
             }
 

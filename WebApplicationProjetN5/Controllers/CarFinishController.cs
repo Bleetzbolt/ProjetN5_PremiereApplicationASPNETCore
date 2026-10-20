@@ -19,13 +19,13 @@ namespace WebApplicationProjetN5.Controllers
 
         public IActionResult Create(CarFinish CarFinish)
         {
-            _CarFinishService.SaveCarFinish(CarFinish);
+            _CarFinishService.Save(CarFinish);
             return RedirectToAction("Read");
         }
 
         public IActionResult Delete(int id)
         {
-            _CarFinishService.DeleteCarFinish(id);
+            _CarFinishService.Delete(id);
             return RedirectToAction("Read");
         }
 

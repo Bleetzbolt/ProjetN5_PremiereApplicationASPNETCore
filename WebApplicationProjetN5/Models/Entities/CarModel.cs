@@ -9,8 +9,6 @@
         public int BrandId { get; set; }
         public Brand Brand { get; set; }
 
-        public string Message { get; set; }
-
         public IList<CarFinish>CarFinishes { get; set; }
 
         public CarModel()

@@ -5,6 +5,7 @@ namespace WebApplicationProjetN5.Models.ViewModels
 {
     public class CarModelViewModel
     {
+      
         public CarModel CarModel { get; set; } = new();
 
         public Brand Brand { get; set; } = new();
@@ -13,6 +14,8 @@ namespace WebApplicationProjetN5.Models.ViewModels
 
         public int CarFinishId { get; set; }
         public string CarFinishName { get; set; }
+
+        
 
     }
 }

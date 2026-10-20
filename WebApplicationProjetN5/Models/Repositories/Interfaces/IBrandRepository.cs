@@ -6,8 +6,11 @@ namespace WebApplicationProjetN5.Models.Repositories.Interfaces
     public interface IBrandRepository
     {
         public IEnumerable<BrandViewModel> GetAllBrands();
-        void SaveBrand(Brand brand);
-        Brand? GetBrand(int id);
-        void DeleteBrand(int id);
+        int Save(Brand brand);
+        Brand? GetById(int id);
+        void Delete(int id);
+        Brand? GetByName(string name);
+
+        void Update(Brand brand);
     }
 }

@@ -1,15 +1,20 @@
-﻿using WebApplicationProjetN5.Models.Entities;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using WebApplicationProjetN5.Models.Entities;
 
 namespace WebApplicationProjetN5.Models.Services.Interfaces
 {
     public interface ICarFinishService
     {
         public IList<CarFinish> GetAllCarFinish();
-        void SaveCarFinish(CarFinish carFinish);
+        int Save(CarFinish carFinish);
 
-        void DeleteCarFinish(int id);
+        void Delete(int id);
 
-        int GetCarFinishId(CarFinish carFinish);
+        CarFinish? GetById(int id);
+
+        CarFinish? GetByName(string name);
+
+        IEnumerable<CarFinish> GetCarFinishByModel(string modelName);
 
     }
 }

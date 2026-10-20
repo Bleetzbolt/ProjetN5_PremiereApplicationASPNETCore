@@ -1,19 +1,29 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WebApplicationProjetN5.Models;
+using WebApplicationProjetN5.Models.Services.Interfaces;
 
 namespace WebApplicationProjetN5.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+       private readonly ICarService _CarService;
+
+        public HomeController(ICarService CarService)
         {
-            return View();
+            _CarService = CarService;
         }
 
-        public IActionResult Privacy()
+
+        public IActionResult Index()
         {
-            return View();
+            var cars = _CarService.GetAllCars();
+            return View(cars);
+        }
+
+        public IActionResult AddCar()
+        {
+            return View("Views/AddCar/Index.cshtml");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

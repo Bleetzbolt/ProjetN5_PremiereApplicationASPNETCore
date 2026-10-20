@@ -24,20 +24,27 @@ namespace WebApplicationProjetN5.Models.Repositories.Implementation
             return brands;
         }
 
-        public void SaveBrand(Brand brand)
+        public int Save(Brand brand)
         {
+
             _context.Brands.Add(brand);
             _context.SaveChanges();
+            return brand.Id;
         }
 
-        public Brand? GetBrand(int id)
+        public Brand? GetById(int id)
         {
             return _context.Brands.Find(id);
         }
 
-        public void DeleteBrand(int id)
+        public Brand? GetByName(string name)
         {
-            var brandToDelete = GetBrand(id);
+            return _context.Brands.FirstOrDefault(b => b.Name == name);
+        }
+
+        public void Delete(int id)
+        {
+            var brandToDelete = GetById(id);
             if (brandToDelete != null)
             {
                 _context.Brands.Remove(brandToDelete);
@@ -45,5 +52,13 @@ namespace WebApplicationProjetN5.Models.Repositories.Implementation
             }
 
         }
+
+        public void Update(Brand brand)
+        {
+                _context.Update(brand);
+                _context.SaveChanges();
+           
+        }
+
     }
 }

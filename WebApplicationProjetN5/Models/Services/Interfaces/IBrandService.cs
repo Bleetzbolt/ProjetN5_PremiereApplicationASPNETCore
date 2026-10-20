@@ -7,11 +7,13 @@ namespace WebApplicationProjetN5.Models.Services.Interfaces
     public interface IBrandService
     {
         public IEnumerable<BrandViewModel> GetAllBrands();
-        void SaveBrand(Brand brand);
+        int Save(Brand brand);
 
-        void DeleteBrand(int id);
+        void Delete(int Id);
 
-        int GetBrandId(Brand Brand);
+        Brand? GetById(int Id);
+
+        
 
     }
 }

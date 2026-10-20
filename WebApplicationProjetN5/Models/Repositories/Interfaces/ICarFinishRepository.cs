@@ -5,8 +5,10 @@ namespace WebApplicationProjetN5.Models.Repositories.Interfaces
     public interface ICarFinishRepository
     {
         public IList<CarFinish> GetAllCarFinish();
-        void SaveCarFinish(CarFinish carFinish);
-        CarFinish? GetCarFinish(int id);
-        void DeleteCarFinish(int id);
+        int Save(CarFinish carFinish);
+        CarFinish? GetById(int id);
+        CarFinish? GetByName(string name);
+        void Delete(int id);
+
     }
 }

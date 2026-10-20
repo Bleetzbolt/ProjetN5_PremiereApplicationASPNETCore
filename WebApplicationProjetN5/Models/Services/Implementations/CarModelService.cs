@@ -1,4 +1,5 @@
-﻿using WebApplicationProjetN5.Models.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using WebApplicationProjetN5.Models.Entities;
 using WebApplicationProjetN5.Models.Repositories.Interfaces;
 using WebApplicationProjetN5.Models.Services.Interfaces;
 using WebApplicationProjetN5.Models.ViewModels;
@@ -17,22 +18,34 @@ namespace WebApplicationProjetN5.Models.Services.Implementations
 
         public IEnumerable<CarModelViewModel> GetAllCarModels()
         {
-
             return _CarModelRepository.GetAllCarModels();
         }
-        public void SaveCarModel(CarModelViewModel CarModel)
+        public void Save(CarModel carModel)
         {
-            _CarModelRepository.SaveCarModel(CarModel);
+             
+            _CarModelRepository.Save(carModel);
+        }
+
+        public CarModel? GetById(int Id)
+        {
+            return _CarModelRepository.GetById(Id);
+        }
+
+        public CarModel? GetByName(string name)
+        {
+            return _CarModelRepository.GetByName(name);
         }
 
         public int GetCarModelId(CarModel CarModel)
         {
             return CarModel.Id;
         }
-        public void DeleteCarModel(int id)
+        
+        public void Delete(int id)
         {
-            _CarModelRepository.DeleteCarModel(id);
+            _CarModelRepository.Delete(id);
 
         }
+        
     }
 }
