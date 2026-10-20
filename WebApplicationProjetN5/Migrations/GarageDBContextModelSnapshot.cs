@@ -292,7 +292,6 @@ namespace WebApplicationProjetN5.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Message")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Photo")
@@ -348,7 +347,7 @@ namespace WebApplicationProjetN5.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CarFinishs");
+                    b.ToTable("CarFinishes");
                 });
 
             modelBuilder.Entity("WebApplicationProjetN5.Models.Entities.CarModel", b =>
@@ -361,10 +360,6 @@ namespace WebApplicationProjetN5.Migrations
 
                     b.Property<int>("BrandId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()

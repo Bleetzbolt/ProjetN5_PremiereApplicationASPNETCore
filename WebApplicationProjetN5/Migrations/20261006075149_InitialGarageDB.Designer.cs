@@ -12,8 +12,8 @@ using WebApplicationProjetN5.Data;
 namespace WebApplicationProjetN5.Migrations
 {
     [DbContext(typeof(GarageDBContext))]
-    [Migration("20261003155001_AddRelationCarToCarfinishCarModel")]
-    partial class AddRelationCarToCarfinishCarModel
+    [Migration("20261006075149_InitialGarageDB")]
+    partial class InitialGarageDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -295,7 +295,6 @@ namespace WebApplicationProjetN5.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Message")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Photo")
@@ -351,7 +350,7 @@ namespace WebApplicationProjetN5.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CarFinishs");
+                    b.ToTable("CarFinishes");
                 });
 
             modelBuilder.Entity("WebApplicationProjetN5.Models.Entities.CarModel", b =>
@@ -364,10 +363,6 @@ namespace WebApplicationProjetN5.Migrations
 
                     b.Property<int>("BrandId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()

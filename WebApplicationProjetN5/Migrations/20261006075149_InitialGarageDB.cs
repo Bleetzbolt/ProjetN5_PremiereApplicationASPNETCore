@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WebApplicationProjetN5.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialGarageDBContext : Migration
+    public partial class InitialGarageDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -64,7 +64,7 @@ namespace WebApplicationProjetN5.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CarFinishs",
+                name: "CarFinishes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -73,7 +73,7 @@ namespace WebApplicationProjetN5.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CarFinishs", x => x.Id);
+                    table.PrimaryKey("PK_CarFinishes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -100,6 +100,18 @@ namespace WebApplicationProjetN5.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Visitors",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Visitors", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -239,9 +251,9 @@ namespace WebApplicationProjetN5.Migrations
                 {
                     table.PrimaryKey("PK_CarFinishCarModel", x => new { x.CarFinishesId, x.CarModelsId });
                     table.ForeignKey(
-                        name: "FK_CarFinishCarModel_CarFinishs_CarFinishesId",
+                        name: "FK_CarFinishCarModel_CarFinishes_CarFinishesId",
                         column: x => x.CarFinishesId,
-                        principalTable: "CarFinishs",
+                        principalTable: "CarFinishes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -260,7 +272,7 @@ namespace WebApplicationProjetN5.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Availability = table.Column<bool>(type: "bit", nullable: false),
                     Photo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Message = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PurchasePrice = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     SellingPrice = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     ReparationCost = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
@@ -268,18 +280,19 @@ namespace WebApplicationProjetN5.Migrations
                     SaleDate = table.Column<DateOnly>(type: "date", nullable: false),
                     PurchaseDate = table.Column<DateOnly>(type: "date", nullable: false),
                     ReleasedYear = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
                     CarModelId = table.Column<int>(type: "int", nullable: false),
-                    CarFinishId = table.Column<int>(type: "int", nullable: true)
+                    CarFinishId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cars", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Cars_CarFinishs_CarFinishId",
+                        name: "FK_Cars_CarFinishes_CarFinishId",
                         column: x => x.CarFinishId,
-                        principalTable: "CarFinishs",
-                        principalColumn: "Id");
+                        principalTable: "CarFinishes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Cars_CarModels_CarModelId",
                         column: x => x.CarModelId,
@@ -290,8 +303,7 @@ namespace WebApplicationProjetN5.Migrations
                         name: "FK_Cars_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -316,24 +328,6 @@ namespace WebApplicationProjetN5.Migrations
                         principalTable: "Reparations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Visitors",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CarId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Visitors", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Visitors_Cars_CarId",
-                        column: x => x.CarId,
-                        principalTable: "Cars",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -404,11 +398,6 @@ namespace WebApplicationProjetN5.Migrations
                 name: "IX_Cars_UserId",
                 table: "Cars",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Visitors_CarId",
-                table: "Visitors",
-                column: "CarId");
         }
 
         /// <inheritdoc />
@@ -445,13 +434,13 @@ namespace WebApplicationProjetN5.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Reparations");
-
-            migrationBuilder.DropTable(
                 name: "Cars");
 
             migrationBuilder.DropTable(
-                name: "CarFinishs");
+                name: "Reparations");
+
+            migrationBuilder.DropTable(
+                name: "CarFinishes");
 
             migrationBuilder.DropTable(
                 name: "CarModels");
