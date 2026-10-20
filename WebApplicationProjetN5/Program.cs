@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using WebApplicationProjetN5.Data;
@@ -14,13 +15,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>()
+builder.Services
+    .AddDefaultIdentity<ApplicationUser>() //IdentityUser
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<GarageDBContext>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddMvc();
+builder.Services.AddRazorPages();
 
 //ajout par mes soins
-//builder.Services.AddDbContext<GarageDBContext>(options => options.UseSqlServer(connectionString));
+
 builder.Services.AddDbContext<GarageDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("GarageDbLocalConnection")));
 builder.Services.AddScoped<IBrandService, BrandService>();
 builder.Services.AddScoped<IBrandRepository, BrandRepository>();
@@ -56,6 +60,12 @@ else
     app.UseHsts();
 }
 
+using (var scope = app.Services.CreateScope())
+{
+    await IdentitySeeder.CreateAdminAsync(
+        scope.ServiceProvider,
+        builder.Configuration);
+}
 
 //************************
 /*using (var context = new GarageDBContext())
@@ -117,18 +127,19 @@ static void DisplayStates(IEnumerable<EntityEntry> entries)
     }
 }*/
 
-    
+
 //************************
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
+    pattern: "{controller=Car}/{action=Index}/{id?}")
     .WithStaticAssets();
 
 app.MapRazorPages()
