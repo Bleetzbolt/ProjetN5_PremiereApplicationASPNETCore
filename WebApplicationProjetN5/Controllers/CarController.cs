@@ -195,6 +195,28 @@ namespace WebApplicationProjetN5.Controllers
             {
                 carVM.Car.CarFinish.Name = CustomCarFinish;
             }
+            //Ajout d'erreur au model si le champs de saisie d'ajout d'une finition est vide
+            if (carVM.Car.CarFinish.Name == null || carVM.Car.CarFinish.Name.Length == 0)
+            {
+                ModelState.AddModelError("Car.CarFinish.Name", "Veuillez Ajouter une finition.");
+            }
+
+            ModelState.Remove("photo");
+            ModelState.Remove("Car.Photo");
+            ModelState.Remove("Car.CarModel");
+            ModelState.Remove("Car.ReleasedYear");
+            ModelState.Remove("Car.PurchasePrice");
+
+            //Vérification du model: si il y a une erreur on renvoie la page en rechargeant les listes déroulantes
+            if (!ModelState.IsValid)
+            {
+                
+                return RedirectToAction("FormUpdate", new { Car_Id = carVM.Car.Id });
+            }
+
+
+
+
             _CarService.CarUpdate(carVM, photo);
             return RedirectToAction("Single_Car", new { Car_Id = carVM.Car.Id });
         }

@@ -32,6 +32,7 @@
                             <option value="">-- Choisir une finition --</option>
                             <option value="__custom__CarFinish">+ Saisir une finition...</option>
                         </select>
+                        <span asp-validation-for="Car.CarFinish.Name" class="text-danger"></span>
                         <input type="text"
                                name="CustomCarFinish"
                                id="CustomCarFinish"
@@ -108,4 +109,4 @@
         });
     </script>
 
-
+  
