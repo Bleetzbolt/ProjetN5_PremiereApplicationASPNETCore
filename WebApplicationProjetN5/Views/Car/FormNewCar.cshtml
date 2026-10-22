@@ -2,19 +2,28 @@
 @section Styles {
     <link rel="stylesheet" href="~/css/formNewCar.css" />
 }
+
 <div class="page-block">
     <div>
         <p>Ajouter une voiture</p>
     </div>
+    
     <div>
         <p> Tous les champs sont obligatoires </p>
     </div>
+    
     <div class="main-block">
         <form asp-controller="Car" asp-action="Create" method="post" enctype="multipart/form-data">
+            <!-- <div asp-validation-summary="All" class="validation-errors"></div> -->
             <div class="space-field-center">
                 <div class="space-field">
-                    <p class="space-lbl">Prix de vente</p>
-                    <input asp-for="Car.SellingPrice" class="form-field" />
+                    <label asp-for="Car.PurchasePrice" class="space-lbl">
+                        Prix d'achat
+                    </label>
+                    <br />
+                    <input asp-for="Car.PurchasePrice" type="text" inputmode="decimal" class="form-field" />
+                    <span asp-validation-for="Car.PurchasePrice" class="text-danger"></span>
+
                 </div>
 
                 <div class="space-field">
@@ -30,18 +39,29 @@
                 </div>
 
                 <div class="space-field">
-                    <p class="space-lbl">Année</p>
-                    <input asp-for="Car.ReleasedYear" class="form-field" />
+                    <label class="space-lbl" for="Year">Année</label>
+                    <br />
+                    <select asp-for="Car.ReleasedYear" class="form-field">
+                        <option value="">-- Sélectionner une année --</option>
+                        @for (int year = 1990; year <= DateTime.Now.Year; year++)
+                        {
+                            <option value="@year">@year</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Car.ReleasedYear" class="text-danger"></span>
                 </div>
+
                 <div class="space-field">
-                    <p class="space-lbl">Marque</p>
-                    <select asp-for="BrandName"
+                    <label class="space-lbl">Marque</label>
+                    <br />
+                    <select asp-for="Car.CarModel.Brand.Name"
                             asp-items="Model.SelBrandVMs"
-                            id="BrandName"
+                            id="CarCarModelBrandName"
                             class="form-field">
                         <option value="">-- Choisir une marque --</option>
                         <option value="__custom__Brand">+ Saisir une marque...</option>
                     </select>
+                    <span asp-validation-for="Car.CarModel.Brand.Name" class="text-danger"></span>
 
                     <input type="text"
                            name="CustomBrand"
@@ -50,33 +70,37 @@
                            placeholder="Saisir le nom de la marque"
                            style="display:none;" />
                 </div>
+               
                 <div class="space-field">
-                    <p class="space-lbl">Modèle</p>
-                    <select asp-for="CarModelName"
+                    <label class="space-lbl">Modèle</label>
+                    <br />
+                    <select asp-for="Car.CarModel.Name"
                             asp-items="Model.SelCarModelVMs"
-                            id="CarModelName"
+                            id="CarCarModelName"
                             class="form-field">
                         <option value="">-- Choisir un modèle --</option>
                         <option value="__custom__CarModel">+ Saisir un modèle...</option>
                     </select>
-
+                    <span asp-validation-for="Car.CarModel.Name" class="text-danger"></span>
                     <input type="text"
                            name="CustomCarModel"
                            id="CustomCarModel"
-                           class="form-control mt-2"
+                           class="form-field"
                            placeholder="Saisir le nom du modèle"
                            style="display:none;" />
                 </div>
+                
                 <div class="space-field">
-                    <p class="space-lbl">Finition</p>
-                    <select asp-for="CarFinish.Name"
+                    <label class="space-lbl">Finition</label>
+                    <br />
+                    <select asp-for="Car.CarFinish.Name"
                             asp-items="Model.SelCarFinishVMs"
-                            id="CarFinishName"
+                            id="CarCarFinishName"
                             class="form-field">
                         <option value="">-- Choisir une finition --</option>
                         <option value="__custom__CarFinish">+ Saisir une finition...</option>
                     </select>
-
+                    <span asp-validation-for="Car.CarFinish.Name" class="text-danger"></span>
                     <input type="text"
                            name="CustomCarFinish"
                            id="CustomCarFinish"
@@ -84,36 +108,79 @@
                            placeholder="Saisir le nom de la finition"
                            style="display:none;" />
                 </div>
+
                 <div class="space-pic">
-                <div class="photo-upload">
-                    <div>
-                    <input type="file"
-                           id="photo"
-                           name="photo"
-                           accept="image/*"
-                           hidden />
+                    <div class="photo-upload">
+                        <div>
+                            <input type="file"
+                                   id="photo"
+                                   name="photo"
+                                   accept="image/*"
+                                   hidden />
 
-                    <label for="photo" class="bt-add-photo">+</label>
+                            <label for="photo" class="bt-add-photo">+</label>
+                        </div>
+
+                        <span id="photo-name" class="space-text-pic">Ajoutez une image</span>
+                        <span asp-validation-for="Car.Photo" class="text-danger"></span>
                     </div>
-
-                    <span id="photo-name" class="space-text-pic">Ajoutez une image</span>
-
                 </div>
+
+                <div class="title-repair">
+                    <p>Réparations</p>
                 </div>
-                <div class="space-bt">
-                    <button type="submit" class="bt-publish">Publier</button>
+                
+                <div class="block-repair" id="reparations-container">
+
+                   
+
+                    <div class="reparation-item">
+                        <!--
+                        <div>
+                            <label>Description:</label>
+                            <br />
+                            <input type="text"
+                                   name="Car.Reparations[0].Description" />
+                            <br />
+                            <label>Coût (€)   :</label>
+                            <br />
+                            <input type="number"
+                                   name="Car.Reparations[0].Cost"
+                                   min="0"
+                                   step="0.01" />
+                        </div>
+
+                        <div class="space-bt-del">
+                            <button type="button" class="bt-publish"
+                                    onclick="supprimerReparation(this)">
+                                Supprimer
+                            </button>
+                        </div>
+                        -->
+                    </div>
                 </div>
             </div>
+
+            <div class="space-bt-add">
+                <button type="button" onclick="ajouterReparation()" class="bt-publish">
+                    Ajouter une réparation
+                </button>
+            </div>
+
+            <div class="space-bt">
+                <button type="submit" class="bt-publish">Publier</button>
+            </div>
+
         </form>
     </div>
 </div>
 
 <script>
-    const brandSelect = document.getElementById("BrandName");
+    const brandSelect = document.getElementById("CarCarModelBrandName");
     const customBrandInput = document.getElementById("CustomBrand");
-    const carModelSelect = document.getElementById("CarModelName");
+    const carModelSelect = document.getElementById("CarCarModelName");
     const customCarModelInput = document.getElementById("CustomCarModel");
-    const carFinishSelect = document.getElementById("CarFinishName");
+    const carFinishSelect = document.getElementById("CarCarFinishName");
     const customCarFinishInput = document.getElementById("CustomCarFinish");
 
     function addCustomCarModelOption() {
@@ -240,9 +307,61 @@
     photoInput.addEventListener("change", function () {
         if (this.files.length > 0) {
             photoName.textContent = this.files[0].name;
-        } else {
+                    } else {
             photoName.textContent = "Ajouter une image";
         }
     });
+
+
+    //Gestion d'ajout/suppression de réparations
+    let indexReparation = 1;
+
+    function ajouterReparation() {
+        const container =
+            document.getElementById("reparations-container");
+
+        const div = document.createElement("div");
+        div.className = "reparation-item";
+
+        div.innerHTML = `
+
+                                                                                 <div>
+                                                                                    <label>Description</label>
+                                                                                    <br />
+                                                                                    <input type="text"
+                                                                                           name="Car.Reparations[${indexReparation}].Description" />
+                                                                                    <br />
+                                                                                    <label>Coût   :(€)</label>
+                                                                                    <br />
+                                                                                    <input type="number"
+                                                                                           name="Car.Reparations[${indexReparation}].Cost"
+                                                                                           min="0"
+                                                                                           step="0.01" />
+                                                                                 </div>
+
+                                                                                <div class="space-bt-del">
+                                                                                    <button type="button" class="bt-publish"
+                                                                                            onclick="supprimerReparation(this)">
+                                                                                        Supprimer
+                                                                                    </button>
+                                                                                </div>
+
+                                                                                `;
+
+        container.appendChild(div);
+        indexReparation++;
+    }
+
+    function supprimerReparation(button) {
+        button.closest(".reparation-item").remove();
+    }
+
 </script>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    
+}
 

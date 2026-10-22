@@ -1,16 +1,14 @@
 /* CSS for formUpdateCar view */
 .main-block {
     width: 493px;
-    height:1072px;
     border: 1px solid black;
     justify-content: center;
-    
 }
+
 .space-field-center {
     display: flex;
-    flex-direction:column;
+    flex-direction: column;
     align-items: center;
-    
 }
 
 .page-block {
@@ -25,6 +23,7 @@
     height: 61px;
     width: 145px;
     border-radius: 5px;
+    padding-bottom: 10px;
 }
 
     .bt-publish:hover {
@@ -37,13 +36,14 @@
     display: flex;
     justify-content: center;
     padding-top: 40px;
+    margin-bottom: 20px;
 }
 
 .form-field {
     width: 372px;
     height: 64px;
     background-color: white;
-    padding-left:10px;
+    padding-left: 10px;
 }
 
 .bt-add-photo {
@@ -59,7 +59,7 @@
     font-size: 32px;
     cursor: pointer;
     box-sizing: border-box;
-    padding-bottom:10px;
+    padding-bottom: 10px;
 }
 
     .bt-add-photo:hover {
@@ -67,28 +67,73 @@
         color: white;
     }
 
-    .photo-upload{
-        width:372px;
-        height:147px;
-        display:flex;
-        justify-content:center;
-        align-items:center;
-        border:1px solid black;
-     
-    }
-
-    .space-text-pic{
-        padding-left:20px;
-    }
-    .space-pic{
-        padding-top:40px;
-    }
-.space-field {
-    padding-top: 30px;
-    
+.photo-upload {
+    width: 372px;
+    height: 107px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
 }
 
-    .space-lbl{
-        margin:0;
+.space-text-pic {
+    padding-left: 20px;
+}
 
-    }
+.space-pic {
+    padding-top: 40px;
+}
+
+.space-field {
+    padding-top: 30px;
+}
+
+.space-lbl {
+    margin: 0;
+}
+
+.block-repair {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: 1px solid black;
+    width: 372px;
+}
+
+.title-repair {
+    margin-top: 30px;
+    width: 372px;
+}
+
+.reparation-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center
+}
+
+.space-bt-add {
+    width: 493px;
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+}
+
+.validation-errors,
+.text-danger {
+    color: red;
+    font-size: 14px;
+}
+
+.validation-errors {
+    margin-bottom: 15px;
+}
+
+.field-validation-error {
+    display: block;
+}
+
+.space-pic .text-danger {
+    display: block;
+    text-align: center;
+    margin-top: 5px;
+}

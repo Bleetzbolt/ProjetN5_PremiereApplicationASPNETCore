@@ -88,6 +88,13 @@
     padding-top: 10px;
     
 }
+.form-field-noborder {
+    width: 372px;
+    height: 64px;
+    background-color: white;
+    padding-left: 10px;
+    border: none;
+}
 
     .space-lbl{
         margin:0;

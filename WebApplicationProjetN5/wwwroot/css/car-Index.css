@@ -26,3 +26,22 @@
     background-color: white;
     border: none;
 }
+
+.bt-add {
+    background-color: #D9A963;
+    color: black;
+    height: 61px;
+    width: 200px;
+}
+
+    .bt-add:hover {
+        background-color: #B99056;
+        color: white;
+    }
+
+.space-bt {
+    width: 1400px;
+    display: flex;
+    justify-content: center;
+    padding-top: 40px;
+}}

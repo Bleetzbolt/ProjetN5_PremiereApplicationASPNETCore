@@ -26,9 +26,9 @@
 
 .space-title {
     text-align: center;
-    font: bold 24px/29px 'Libre Baskerville', sans-serif; 
-
-    
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+    color:#796157;
 }
 
 .space-block{
