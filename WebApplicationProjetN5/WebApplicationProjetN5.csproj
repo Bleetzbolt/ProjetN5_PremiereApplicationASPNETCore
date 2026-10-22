@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\css\carDeleted.css" />
     <Content Remove="wwwroot\css\carPublished.css" />
     <Content Remove="wwwroot\css\formNewCar.css" />
     <Content Remove="wwwroot\css\formUpdateCar.css" />
@@ -36,6 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\css\carDeleted.css" />
     <None Include="wwwroot\css\carPublished.css" />
     <None Include="wwwroot\css\formUpdateCar.css" />
     <None Include="wwwroot\css\formNewCar.css" />
