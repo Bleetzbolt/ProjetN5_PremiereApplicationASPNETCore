@@ -1,9 +1,12 @@
-﻿namespace WebApplicationProjetN5.Models.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace WebApplicationProjetN5.Models.Entities
 {
     public class CarModel
     {
         public int Id { get; set; }
-        
+
+        [Required(ErrorMessage = "Le nom du modèle est obligatoire.")]
         public string Name { get; set; }
 
         public int BrandId { get; set; }

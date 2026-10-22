@@ -5,13 +5,11 @@
         public int Id { get; set; }
         public string? Description { get; set; }
 
-        public IList<Car> Cars { get; set; }
+        public decimal Cost { get; set; }
 
-        public Reparation()
-        {
-            Cars = [];
-        }
+        public int CarId { get; set; }
 
+        public Car Car { get; set; } = null!;
 
     }
 }
