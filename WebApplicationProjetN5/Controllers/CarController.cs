@@ -13,7 +13,7 @@ namespace WebApplicationProjetN5.Controllers
 
         private readonly ICarService _CarService;
         private readonly ICarModelService _CarModelService;
-        private  readonly ICarFinishService _CarFinishService;
+        private readonly ICarFinishService _CarFinishService;
 
 
         private readonly IBrandService _BrandService;
@@ -29,31 +29,87 @@ namespace WebApplicationProjetN5.Controllers
         {
             return _CarService.GetAllCars();
         }
+
         [Authorize(Roles = "Admin")]
         public IActionResult Create(CarViewModel carVM, IFormFile photo, string? CustomBrand, string? CustomCarModel, string? CustomCarFinish)
         {
-            if(carVM.BrandName == "__custom__Brand")
+            if (carVM.Car.CarModel.Brand.Name == "__custom__Brand")
             {
-                carVM.BrandName = CustomBrand;
+                carVM.Car.CarModel.Brand.Name = CustomBrand;
             }
-            if(carVM.CarModelName == "__custom__CarModel")
+            if (carVM.Car.CarModel.Name == "__custom__CarModel")
             {
-                carVM.CarModelName = CustomCarModel;
+                carVM.Car.CarModel.Name = CustomCarModel;
             }
-            if (carVM.CarFinish.Name == "__custom__CarFinish")
+            if (carVM.Car.CarFinish.Name == "__custom__CarFinish")
             {
-                carVM.CarFinish.Name = CustomCarFinish;
+                carVM.Car.CarFinish.Name = CustomCarFinish;
             }
-/*
+
+            
+
+            // Supprimer la validation pour la propriété Photo du Model si la photo exist
+            if (photo == null || photo.Length == 0)
+            {
+                carVM.Car.Photo = null;
+                ModelState.AddModelError("Car.Photo", "Veuillez ajouter une image.");
+                //ModelState.Remove("Car.Photo"); 
+            }
+            else
+            {
+                carVM.Car.Photo = photo.FileName;
+
+                // Retirer une éventuelle erreur de validation
+                // initiale sur Car.Photo.
+                ModelState.Remove("Car.Photo");
+            }
+
+            //Retrait du Model des Car.reparations
+            for (int x = 0; x <= carVM.Car.Reparations.Count; x++)
+            {
+
+                ModelState.Remove("Car.Reparations[" + x + "].Car");
+            }
+
+            //Ajout d'erreur au model si le champs de saisie d'ajout d'une marque est vide
+            if(carVM.Car.CarModel.Brand.Name==null || carVM.Car.CarModel.Brand.Name.Length==0)
+            {
+                ModelState.AddModelError("Car.CarModel.Brand.Name", "Veuillez Ajouter une marque.");
+            }
+            //Ajout d'erreur au model si le champs de saisie d'ajout d'un modèle est vide
+            if (carVM.Car.CarModel.Name == null || carVM.Car.CarModel.Name.Length == 0)
+            {
+                ModelState.AddModelError("Car.CarModel.Name", "Veuillez Ajouter un modèle.");
+            }
+            //Ajout d'erreur au model si le champs de saisie d'ajout d'une finition est vide
+            if (carVM.Car.CarFinish.Name == null || carVM.Car.CarFinish.Name.Length == 0)
+            {
+                ModelState.AddModelError("Car.CarFinish.Name", "Veuillez Ajouter une finition.");
+            }
+
+            //Vérification du model: si il y a une erreur on renvoie la page en rechargeant les listes déroulantes
             if (!ModelState.IsValid)
             {
-                // Recharger ici les listes déroulantes
-                // SelBrandVMs, SelCarModelVMs et SelCarFinishVMs.
-                return RedirectToAction("FormNewCar");
+                carVM.SelBrandVMs = _BrandService.GetAllBrands().Select(b => new SelectListItem
+                {
+                    Value = b.Name,
+                    Text = b.Name
+                });
+                carVM.SelCarModelVMs = _CarModelService.GetAllCarModels().Select(cm => new SelectListItem
+                {
+                    Value = cm.CarModel.Name,
+                    Text = cm.CarModel.Name
+                });
+                carVM.SelCarFinishVMs = _CarFinishService.GetAllCarFinish().Select(cf => new SelectListItem
+                {
+                    Value = cf.Name,
+                    Text = cf.Name
+                });
+                return View("FormNewCar", carVM);
             }
-*/
 
-            _CarService.SaveCar(carVM,photo);
+
+            _CarService.SaveCar(carVM, photo);
             return RedirectToAction("CarPublished");
         }
 
@@ -62,14 +118,14 @@ namespace WebApplicationProjetN5.Controllers
         {
             // Retrieve the car view model before deletion
             CarViewModel? carVM = _CarService.GetAllCars().FirstOrDefault(c => c.Car.Id == Car_Id);
-            
+
             _CarService.DeleteCar(Car_Id);
-            return View("CarDeleted",carVM);
+            return View("CarDeleted", carVM);
         }
 
         public IActionResult Index()
         {
-            var Cars= GetAllCars();
+            var Cars = GetAllCars();
 
             return View(Cars);
         }
@@ -109,7 +165,7 @@ namespace WebApplicationProjetN5.Controllers
         }
         public IActionResult Single_Car(int Car_Id)
         {
-           CarViewModel? carVM = _CarService.GetAllCars().FirstOrDefault(c => c.Car.Id == Car_Id);
+            CarViewModel? carVM = _CarService.GetAllCars().FirstOrDefault(c => c.Car.Id == Car_Id);
 
             return View(carVM);
         }
@@ -117,27 +173,27 @@ namespace WebApplicationProjetN5.Controllers
         public IActionResult FormUpdate(int Car_Id)
         {
             CarViewModel? carVM = _CarService.GetAllCars().FirstOrDefault(c => c.Car.Id == Car_Id);
-            
+
             if (carVM == null)
             {
                 return NotFound($"Aucune voiture trouvée avec l'identifiant {Car_Id}.");
             }
-            carVM.SelCarFinishVMs = _CarFinishService.GetCarFinishByModel(carVM.CarModelName).ToList().Select(cf => new SelectListItem
+            carVM.SelCarFinishVMs = _CarFinishService.GetCarFinishByModel(carVM.Car.CarModel.Name).ToList().Select(cf => new SelectListItem
             {
                 Value = cf.Name,
                 Text = cf.Name
             });
 
-            
+
             return View(carVM);
         }
 
         [Authorize(Roles = "Admin")]
         public IActionResult CarUpdate(CarViewModel carVM, IFormFile photo, string? CustomCarFinish)
         {
-            if (carVM.CarFinish.Name == "__custom__CarFinish")
+            if (carVM.Car.CarFinish.Name == "__custom__CarFinish")
             {
-                carVM.CarFinish.Name = CustomCarFinish;
+                carVM.Car.CarFinish.Name = CustomCarFinish;
             }
             _CarService.CarUpdate(carVM, photo);
             return RedirectToAction("Single_Car", new { Car_Id = carVM.Car.Id });
@@ -160,11 +216,11 @@ namespace WebApplicationProjetN5.Controllers
         [HttpGet]
         public IActionResult GetCarFinishesByModel(string carModelName)
         {
-            
+
             var carFinishes = _CarFinishService.GetCarFinishByModel(carModelName).ToList();
             return Json(carFinishes);
-            
-     
+
+
         }
     }
 }
