@@ -1,8 +1,10 @@
-﻿using WebApplicationProjetN5.Models.Entities;
+﻿using System.Linq.Expressions;
+using WebApplicationProjetN5.Models.Entities;
 using WebApplicationProjetN5.Models.Repositories.Implementation;
 using WebApplicationProjetN5.Models.Repositories.Interfaces;
 using WebApplicationProjetN5.Models.Services.Interfaces;
 using WebApplicationProjetN5.Models.ViewModels;
+ 
 
 namespace WebApplicationProjetN5.Models.Services.Implementations
 {
@@ -38,35 +40,35 @@ namespace WebApplicationProjetN5.Models.Services.Implementations
             car.Photo = "";
 
             // Validate BrandName
-            if (carVM.BrandName == null || string.IsNullOrEmpty(carVM.BrandName))
+            if (carVM.Car.CarModel.Brand.Name == null || string.IsNullOrEmpty(carVM.Car.CarModel.Brand.Name))
             {
                 throw new ArgumentException("Brand cannot be null or empty.");
             }
 
-            Brand? Brand = _brandRepository.GetByName(carVM.BrandName);
+            Brand? Brand = _brandRepository.GetByName(carVM.Car.CarModel.Brand.Name);
             if (Brand == null)
             {
                 Brand = new Brand();
-                Brand.Name = carVM.BrandName;
+                Brand.Name = carVM.Car.CarModel.Brand.Name;
                 _brandRepository.Save(Brand);
             }
 
 
 
             // Validate CarModelName
-            if (carVM.CarModelName == null || string.IsNullOrEmpty(carVM.CarModelName))
+            if (carVM.Car.CarModel.Name == null || string.IsNullOrEmpty(carVM.Car.CarModel.Name))
             {
                 throw new ArgumentException("CarModel cannot be null or empty.");
             }
 
 
-            CarModel? carModel = _carModelRepository.GetByName(carVM.CarModelName);
+            CarModel? carModel = _carModelRepository.GetByName(carVM.Car.CarModel.Name);
             if (carModel == null)
             {
                 carModel = new CarModel();
 
-                carModel.Name = carVM.CarModelName;
-                carModel.BrandId = _brandRepository.GetByName(carVM.BrandName).Id;
+                carModel.Name = carVM.Car.CarModel.Name;
+                carModel.BrandId = _brandRepository.GetByName(carVM.Car.CarModel.Brand.Name).Id;
 
                 car.CarModelId = _carModelRepository.Save(carModel);
             }
@@ -85,16 +87,16 @@ namespace WebApplicationProjetN5.Models.Services.Implementations
 
 
             // Validate CarFinish
-            if (carVM.CarFinish.Name == null || string.IsNullOrEmpty(carVM.CarFinish.Name))
+            if (carVM.Car.CarFinish.Name == null || string.IsNullOrEmpty(carVM.Car.CarFinish.Name))
             {
                 throw new ArgumentException("CarFinish cannot be null or empty.");
             }
 
-            CarFinish? carFinish = _carFinishRepository.GetByName(carVM.CarFinish.Name);
+            CarFinish? carFinish = _carFinishRepository.GetByName(carVM.Car.CarFinish.Name);
             if (carFinish == null)
             {
                 carFinish = new CarFinish();
-                carFinish.Name = carVM.CarFinish.Name;
+                carFinish.Name = carVM.Car.CarFinish.Name;
 
                 car.CarFinishId = _carFinishRepository.Save(carFinish);
             }
@@ -104,9 +106,6 @@ namespace WebApplicationProjetN5.Models.Services.Implementations
             }
 
             _carModelRepository.AddCarFinishIfMissing(carModel.Id, carFinish.Id);
-
-
-
 
             //validate the photo
             if (photo == null || string.IsNullOrEmpty(photo.FileName))
@@ -132,14 +131,25 @@ namespace WebApplicationProjetN5.Models.Services.Implementations
                 car.Photo = "/images/cars/" + fileName;
 
             }
+            //deletion of Model and finition to avoid  EF Core  duplicate then in database
+            car.CarFinish = null;
+            car.CarModel = null;
+            
+
+            //Calculate the selling price:
+            car.SellingPrice = car.PurchasePrice + 500 + car.Reparations.Sum(r => r.Cost);
+
             // Save the Car entity to the database
             _CarRepository.SaveCar(car);
         }
 
+        
         public Car? GetById(int id)
         {
             return _CarRepository.GetById(id);
         }
+        
+       
         public void DeleteCar(int Id)
         {
             CarViewModel? carVM = GetAllCars().FirstOrDefault(c => c.Car.Id == Id);
@@ -161,28 +171,28 @@ namespace WebApplicationProjetN5.Models.Services.Implementations
         public void CarUpdate(CarViewModel carVM, IFormFile photo)
         {
             var car = _CarRepository.GetById(carVM.Car.Id);
-            if (car == null)
+            if(car == null)
             {
                 throw new ArgumentException("Car not found.");
             }
-
+            
 
             // Update the car properties
             car.Message = carVM.Car.Message;
             car.SellingPrice = carVM.Car.SellingPrice;
 
             // Validate CarFinish
-            if (carVM.CarFinish.Name == null || string.IsNullOrEmpty(carVM.CarFinish.Name))
+            if (carVM.Car.CarFinish.Name == null || string.IsNullOrEmpty(carVM.Car.CarFinish.Name))
             {
                 throw new ArgumentException("CarFinish cannot be null or empty.");
             }
 
-            CarFinish? carFinish = _carFinishRepository.GetByName(carVM.CarFinish.Name);
+            CarFinish? carFinish = _carFinishRepository.GetByName(carVM.Car.CarFinish.Name);
             if (carFinish == null)
             {
                 carFinish = new CarFinish
                 {
-                    Name = carVM.CarFinish.Name
+                    Name = carVM.Car.CarFinish.Name
                 };
 
                 car.CarFinishId = _carFinishRepository.Save(carFinish);
