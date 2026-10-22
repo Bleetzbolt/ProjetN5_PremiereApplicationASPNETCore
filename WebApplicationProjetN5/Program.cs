@@ -8,6 +8,8 @@ using WebApplicationProjetN5.Models.Repositories.Implementation;
 using WebApplicationProjetN5.Models.Repositories.Interfaces;
 using WebApplicationProjetN5.Models.Services.Implementations;
 using WebApplicationProjetN5.Models.Services.Interfaces;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +25,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddMvc();
 builder.Services.AddRazorPages();
 
-//ajout par mes soins
+//Implementation of servce and repository interface (dependency injection)
 
 builder.Services.AddDbContext<GarageDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("GarageDbLocalConnection")));
 builder.Services.AddScoped<IBrandService, BrandService>();
@@ -44,8 +46,18 @@ builder.Services.AddScoped<IReparationService, ReparationService>();
 
 
 //**********************************
+//French Culture Management
+var cultureInfo = new CultureInfo("fr-FR");
+
+var localizationOptions = new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture(cultureInfo),
+    SupportedCultures = new[] { cultureInfo },
+    SupportedUICultures = new[] { cultureInfo }
+};
 
 
+//Building application from the service configuration
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -126,7 +138,7 @@ static void DisplayStates(IEnumerable<EntityEntry> entries)
         Console.WriteLine($"Entity: {entry.Entity.GetType().Name} State: { entry.State.ToString()} ");
     }
 }*/
-
+app.UseRequestLocalization(localizationOptions);
 
 //************************
 app.UseHttpsRedirection();
