@@ -40,8 +40,8 @@ namespace WebApplicationProjetN5.Data
                 .Property(c => c.SellingPrice)
                 .HasPrecision(18, 2);
 
-            modelBuilder.Entity<Car>()
-                .Property(c => c.ReparationCost)
+            modelBuilder.Entity<Reparation>()
+                .Property(r => r.Cost)
                 .HasPrecision(18, 2);
 
 
