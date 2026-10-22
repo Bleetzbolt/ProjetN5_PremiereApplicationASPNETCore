@@ -12,26 +12,22 @@
             <div class="main-block">
                 <div class="space-field-center">
                     <div class="space-field">
-                        <p class="space-lbl">Année</p>
-                        <p class="form-field">@Model.Car.ReleasedYear</p>
+                        <p class="form-field-noborder">Année: @Model.Car.ReleasedYear</p>
                     </div>
                     <div class="space-field">
-                        <p class="space-lbl">Marque</p>
-                        <p class="form-field">@Model.BrandName</p>
+                        <p class="form-field-noborder">Marque: @Model.Car.CarModel.Brand.Name</p>
                     </div>
                     <div class="space-field">
-                        <p class="space-lbl">Modèle</p>
-                        <p class="form-field">@Model.CarModelName</p>
+                        <p class="form-field-noborder">Modèle: @Model.Car.CarModel.Name</p>
                     </div>
                     <div class="space-field">
-                        <p class="space-lbl">Prix d'achat</p>
-                        <p class="form-field">@Model.Car.PurchasePrice</p>
+                       <p class="form-field-noborder">Prix d'achat: @Model.Car.PurchasePrice</p>
                     </div>
                     <div class="space-field">
                         <p class="space-lbl">Finition</p>
-                        <select asp-for="CarFinish.Name"
+                        <select asp-for="Car.CarFinish.Name"
                                 asp-items="Model.SelCarFinishVMs"
-                                id="CarFinishName"
+                                id="CarCarFinishName"
                                 class="form-field">
                             <option value="">-- Choisir une finition --</option>
                             <option value="__custom__CarFinish">+ Saisir une finition...</option>
@@ -86,7 +82,7 @@
         </div>
     </div>
     <script>
-        const carFinishSelect = document.getElementById("CarFinishName");
+        const carFinishSelect = document.getElementById("CarCarFinishName");
         const customCarFinishInput = document.getElementById("CustomCarFinish");
 
         carFinishSelect.addEventListener("change", function () {
