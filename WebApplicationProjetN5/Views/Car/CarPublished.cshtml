@@ -1,16 +1,13 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿
 @section Styles {
     <link rel="stylesheet" href="~/css/carPublished.css" />
 }
+
 <form asp-controller="Car" asp-action="Index" method="post" enctype="multipart/form-data">
     <div class="main-block">
         <div class="space-block">
-        <h1 class="space-title">Merci!</h1>
-        <p>Votre voiture a été publiée avec succès.</p>
+            <h1 class="space-title">Merci!</h1>
+            <p>Votre voiture a été publiée avec succès.</p>
         </div>
         <button type="submit" class="bt-publish">Retour à l'accueil</button>
     </div>
