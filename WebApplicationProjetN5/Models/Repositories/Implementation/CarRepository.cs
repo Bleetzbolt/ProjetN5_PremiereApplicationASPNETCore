@@ -23,19 +23,15 @@ namespace WebApplicationProjetN5.Models.Repositories.Implementation
             _carFinishRepository = carFinishRepository;
         }
 
-        public IEnumerable<CarViewModel> GetAllCars()
+        public  IEnumerable<CarViewModel> GetAllCars()
         {
             var cars = _context.Cars
                 .Include(c => c.CarModel)
                 .ThenInclude(cm => cm.Brand)
+                .Include(c => c.CarFinish)
                 .Select(c => new CarViewModel
                 {
-                    Car = c,
-                    Brand = c.CarModel.Brand,
-                    CarFinish = c.CarFinish,
-                    BrandName = c.CarModel.Brand.Name,
-                    CarModelName = c.CarModel.Name
-
+                    Car = c
                 });
 
             return cars;

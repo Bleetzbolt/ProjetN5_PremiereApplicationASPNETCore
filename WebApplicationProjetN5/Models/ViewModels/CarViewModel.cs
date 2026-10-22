@@ -9,17 +9,19 @@ namespace WebApplicationProjetN5.Models.ViewModels
     {
         
         public Car Car { get; set; } = new();
-        [Required]
-        public string BrandName { get; set; }=string.Empty;
-
-        [Required]
-        public string CarModelName { get; set; }=string.Empty;
-
-        public Brand Brand { get; set; }
-
-        public CarFinish CarFinish { get; set; }
-
         
+        //public string BrandName { get; set; }=string.Empty;
+
+       
+        //public string CarModelName { get; set; }=string.Empty;
+
+        //public Brand Brand { get; set; }
+
+        //public CarFinish CarFinish { get; set; }
+
+        //public CarModel CarModel { get; set; }
+
+
         public IEnumerable<SelectListItem> SelBrandVMs { get; set; } = [];
        
         public IEnumerable<SelectListItem> SelCarModelVMs { get; set; } = [];
