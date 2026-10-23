@@ -98,13 +98,25 @@ public class RegisterModel : PageModel
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string? ConfirmPassword { get; set; }
     }
-
-
+    
+    public IActionResult OnGet(string? returnUrl = null)
+    {
+        return RedirectToPage("./Login");
+    }
+    
+    /*
     public async Task OnGetAsync(string? returnUrl = null)
     {
         ReturnUrl = returnUrl;
         ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
     }
+    */
+
+    public IActionResult OnPost()
+    {
+        return NotFound();
+    }
+/*
 
     public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
     {
@@ -153,7 +165,7 @@ public class RegisterModel : PageModel
         // If we got this far, something failed, redisplay form
         return Page();
     }
-
+*/
     private ApplicationUser CreateUser()
     {
         try
