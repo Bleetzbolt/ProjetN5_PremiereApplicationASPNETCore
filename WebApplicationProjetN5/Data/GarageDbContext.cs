@@ -17,8 +17,7 @@ namespace WebApplicationProjetN5.Data
         public DbSet<CarModel> CarModels { get; set; }
         public DbSet<CarFinish> CarFinishes { get; set; }
         public DbSet<Reparation> Reparations { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Visitor> Visitors { get; set; }
+        
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -44,6 +43,12 @@ namespace WebApplicationProjetN5.Data
                 .Property(r => r.Cost)
                 .HasPrecision(18, 2);
 
+            // Each repair must be associated with exactly one car.
+            modelBuilder.Entity<Reparation>()
+                .HasOne(r => r.Car)
+                .WithMany(c => c.Reparations)
+                .HasForeignKey(r => r.CarId)
+                .IsRequired();
 
         }
     }
